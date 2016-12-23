@@ -1,2 +1,3 @@
 *.data
 *.pyc
+lib/3rd/jieba
