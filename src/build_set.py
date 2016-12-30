@@ -11,6 +11,7 @@ from config import *
 import numpy as np
 import codecs as cc
 import json
+import base64
 
 encode = 'utf-8'
 
@@ -27,12 +28,15 @@ for line in token:
     tokens.setdefault(word, token_id)
     token_id += 1
 
-def build_mat(count, file):
-    mat = np.zeros((count, vec_length), dtype=np.float32)
+def build_mat(count, file, label):
+    mat = np.zeros((count, vec_length + 1), dtype=np.float32)
+    mat[:, -1] = label
 
     id = 0
-    for line in pos.readlines():
-        text = line.split()
+    for line in file.readlines():
+        text = base64.b64decode(line).decode(encode).split()
+        if line[-1] != '\n': print id, text[-1]
+        if id > 32300 and text != []: print text[0], text[-1]
         for word in text:
             word = word.strip()
             if tokens.has_key(word):
@@ -41,8 +45,8 @@ def build_mat(count, file):
 
     return mat
 
-pos_mat = build_mat(pos_count, pos)
-neg_mat = build_mat(neg_count, neg)
+pos_mat = build_mat(pos_count, pos, 1.)
+neg_mat = build_mat(neg_count, neg, 0.)
 
 np.save(pos_mat_path, pos_mat)
 np.save(neg_mat_path, neg_mat)

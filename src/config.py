@@ -11,8 +11,8 @@ import os
 # 3rd party
 sys.path.append('../lib/3rd/jieba')
 
-
 data_dir = '../data'
+model_dir = '../model'
 
 pos_raw = os.path.join(data_dir, 'positive_raw.data')
 pos_json = os.path.join(data_dir, 'positive.data')
@@ -28,6 +28,8 @@ mat_path = os.path.join(data_dir, 'mat.data')
 mi_path = os.path.join(data_dir, 'mi.data')
 
 token_path = os.path.join(data_dir, 'select_token_20161226.data')
+
+tf_model_path  = os.path.join(model_dir, 'tf/%s.ckpt')
 
 pos_count = 2896
 neg_count = 32338

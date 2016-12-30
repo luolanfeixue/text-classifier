@@ -8,6 +8,7 @@
 import codecs
 import json
 import re
+import base64
 
 from config import *
 import jieba as jb
@@ -27,13 +28,13 @@ for line in pos_file.readlines():
     obj = json.loads(line)
     pos_set = set(jb.cut(pattern.sub(' ', obj['data'])))
     words |= pos_set
-    pos_parsed_file.write(' '.join(pos_set).replace(r'\s+', ' ') + '\n')
+    pos_parsed_file.write(base64.b64encode(' '.join(pos_set).encode(encode)) + '\n')
 
 for line in neg_file.readlines():
     obj = json.loads(line)
     neg_set = set(jb.cut(pattern.sub(' ', obj['data'])))
     words |= neg_set
-    neg_parsed_file.write(' '.join(neg_set) + '\n')
+    neg_parsed_file.write(base64.b64encode(' '.join(neg_set).encode(encode)) + '\n')
 
 words_file = codecs.open(words_path, 'w', encode)
 for word in words:
